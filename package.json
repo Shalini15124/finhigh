@@ -1,0 +1,62 @@
+{
+  "name": "finhigh-backend",
+  "version": "1.0.0",
+  "description": "Smart Financial Management System for Students - Backend API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "setup-db": "node setup-database.js",
+    "test": "jest --watchAll",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "build": "npm run lint && npm test"
+  },
+  "keywords": [
+    "finance",
+    "management",
+    "student",
+    "budget",
+    "expense",
+    "tracker",
+    "nodejs",
+    "mysql",
+    "api"
+  ],
+  "author": "FINHIGH Development Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5",
+    "cors": "^2.8.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.3.1",
+    "joi": "^17.11.0",
+    "winston": "^3.11.0",
+    "compression": "^1.7.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-node": "^11.1.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/finhigh-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/finhigh-backend/issues"
+  },
+  "homepage": "https://github.com/yourusername/finhigh-backend#readme"
+}
