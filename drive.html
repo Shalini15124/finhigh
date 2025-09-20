@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINHIGH - Smart Financial Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.9);
+            color: #FFD700;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.3);
+        }
+
+        .header .tagline {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #FFA500;
+            margin-top: 5px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 120px;
+            display: flex;
+            gap: 30px;
+            min-height: calc(100vh - 120px);
+        }
+
+        /* Login Section */
+        .login-section {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 2px solid #FFD700;
+        }
+
+        .login-section h2 {
+            color: #FFD700;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #FFA500;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: black;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Dashboard Section */
+        .dashboard-section {
+            flex: 2;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 2px solid #FFD700;
+        }
+
+        .dashboard-section.hidden {
+            display: none;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            padding: 10px;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            background: transparent;
+            color: #FFD700;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active {
+            background: #FFD700;
+            color: black;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+            border-color: #FFA500;
+        }
+
+        .card h3 {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        /* Balance Display */
+        .balance-display {
+            text-align: center;
+            font-size: 3rem;
+            color: #FFD700;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 20px 0;
+        }
+
+        .balance-label {
+            font-size: 1.2rem;
+            color: #FFA500;
+            text-align: center;
+        }
+
+        /* Expense Categories */
+        .expense-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .expense-card {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        option{
+            background-color: rgb(29, 28, 28);
+            color: #FFD700;
+        }
+
+        .expense-card:hover {
+            transform: translateY(-5px);
+            border-color: #FFA500;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+        }
+
+        .expense-icon {
+            font-size: 3rem;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .expense-amount {
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .expense-label {
+            color: #FFA500;
+            font-size: 1rem;
+        }
+
+        /* Input Forms */
+        .expense-form {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+            margin-top: 20px;
+        }
+
+        .expense-form input,
+        .expense-form select {
+            padding: 12px;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .expense-form button {
+            padding: 12px 20px;
+            background: #FFD700;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .expense-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Notes */
+        .notes-area {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .notes-area:focus {
+            outline: none;
+            border-color: #FFA500;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* AI Chat */
+        .ai-chat {
+            height: 300px;
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .chat-input button {
+            padding: 12px 20px;
+            background: #FFD700;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Progress Bars */
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        /* Expense History Modal */
+        .expense-history-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .expense-history-content {
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #FFD700;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 5% auto;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #FFD700;
+            padding-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            color: #FFD700;
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #cc3333;
+            transform: scale(1.05);
+        }
+
+        .transaction-item {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid #FFD700;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .transaction-item:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .transaction-amount {
+            font-size: 1.3rem;
+            color: #FFD700;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .transaction-description {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .transaction-date {
+            color: #FFA500;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .no-transactions {
+            text-align: center;
+            color: #FFA500;
+            font-style: italic;
+            padding: 40px 20px;
+        }
+
+        .category-summary {
+            background: rgba(255, 215, 0, 0.15);
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .category-icon-large {
+            font-size: 4rem;
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+
+        .category-total {
+            font-size: 2.5rem;
+            color: #FFD700;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .category-name {
+            font-size: 1.5rem;
+            color: #FFA500;
+            text-transform: capitalize;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                margin-top: 140px;
+            }
+            
+            .tab-nav {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .expense-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .expense-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .expense-history-content {
+                width: 95%;
+                margin: 2% auto;
+                max-height: 90vh;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: #FFD700;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+
+        .message.success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #00ff00;
+            color: #00ff00;
+        }
+
+        .message.error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff0000;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <!-- ONLY FIX: Move script to head to ensure functions load before HTML -->
+    <script>
+        // Global variables
+        let currentUser = null;
+        let userData = {
+            balance: 0,
+            savings: 0,
+            totalSpent: 0,
+            expenses: {
+                food: 0,
+                shopping: 0,
+                friends: 0,
+                weekend: 0,
+                social: 0
+            },
+            notes: '',
+            transactions: []
+        };
+
+        // Category icons and labels mapping
+        const categoryInfo = {
+            food: { icon: 'fas fa-utensils', label: 'Food & Dining' },
+            shopping: { icon: 'fas fa-shopping-bag', label: 'Shopping' },
+            friends: { icon: 'fas fa-users', label: 'Friends & Social' },
+            weekend: { icon: 'fas fa-calendar-weekend', label: 'Weekend Outing' },
+            social: { icon: 'fas fa-hands-helping', label: 'Social Service' }
+        };
+
+        // Handle login - FIXED
+        function handleLogin() {
+            const name = document.getElementById('studentName').value.trim();
+            const email = document.getElementById('studentEmail').value.trim();
+            const allowance = parseFloat(document.getElementById('monthlyAllowance').value);
+
+            if (!name || !email || !allowance || allowance <= 0) {
+                showMessage('loginMessage', 'Please fill in all fields with valid information', 'error');
+                return;
+            }
+
+            // Auto-deduct ₹100 for savings
+            const savingsDeduction = 100;
+            const availableBalance = allowance - savingsDeduction;
+
+            currentUser = { name, email, allowance };
+            userData.balance = availableBalance;
+            userData.savings = savingsDeduction;
+            userData.totalSpent = 0;
+
+            // Save to localStorage (simulating database)
+            localStorage.setItem('finhigh_user', JSON.stringify(currentUser));
+            localStorage.setItem('finhigh_data', JSON.stringify(userData));
+
+            showMessage('loginMessage', 'Login successful! Welcome to FINHIGH!', 'success');
+            
+            setTimeout(() => {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('dashboardSection').classList.remove('hidden');
+                updateDisplay();
+            }, 1500);
+        }
+
+        // Show message helper
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.innerHTML = `<div class="message ${type}">${message}</div>`;
+                setTimeout(() => {
+                    element.innerHTML = '';
+                }, 5000);
+            }
+        }
+    </script>
+
+    <div class="header">
+        <h1><i class="fas fa-coins"></i> FINHIGH</h1>
+        <div class="tagline">Smart Financial Management for Students</div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Login Section -->
+            <div class="login-section" id="loginSection">
+                <h2><i class="fas fa-user-circle"></i> Student Login</h2>
+                <div id="loginMessage"></div>
+                
+                <div class="form-group">
+                    <label for="studentName">
+                        <i class="fas fa-user"></i> Full Name
+                    </label>
+                    <input type="text" id="studentName" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="studentEmail">
+                        <i class="fas fa-envelope"></i> Email Address
+                    </label>
+                    <input type="email" id="studentEmail" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="monthlyAllowance">
+                        <i class="fas fa-rupee-sign"></i> Monthly Allowance
+                    </label>
+                    <input type="number" id="monthlyAllowance" placeholder="Enter monthly allowance" required>
+                </div>
+                
+                <button class="login-btn" onclick="handleLogin()">
+                    <i class="fas fa-sign-in-alt"></i> Login & Start Managing
+                </button>
+
+                <div style="margin-top: 20px; text-align: center;">
+                    <small style="color: #FFA500;">
+                        <i class="fas fa-shield-alt"></i> Your data is secured with smart protection
+                    </small>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div class="dashboard-section hidden" id="dashboardSection">
+                <div class="tab-nav">
+                    <button class="tab-btn active" onclick="showTab('balance')">
+                        <i class="fas fa-wallet"></i> Balance
+                    </button>
+                    <button class="tab-btn" onclick="showTab('expenses')">
+                        <i class="fas fa-chart-pie"></i> Expenses
+                    </button>
+                    <button class="tab-btn" onclick="showTab('reminders')">
+                        <i class="fas fa-bell"></i> Reminders
+                    </button>
+                    <button class="tab-btn" onclick="showTab('notes')">
+                        <i class="fas fa-sticky-note"></i> Notes
+                    </button>
+                    <button class="tab-btn" onclick="showTab('ai-support')">
+                        <i class="fas fa-robot"></i> AI Support
+                    </button>
+                </div>
+
+                <!-- Balance Tab -->
+                <div id="balance-tab" class="tab-content active">
+                    <div class="card">
+                        <h3><i class="fas fa-coins"></i> Current Balance</h3>
+                        <div class="balance-display" id="currentBalance">₹0</div>
+                        <div class="balance-label">Available for spending</div>
+                        
+                        <div style="margin-top: 30px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 1.5rem; color: #FFD700;" id="savingsAmount">₹0</div>
+                                    <div style="color: #FFA500;">Total Savings</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 1.5rem; color: #FFD700;" id="totalSpent">₹0</div>
+                                    <div style="color: #FFA500;">Total Spent</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-plus-circle"></i> Add Income</h3>
+                        <div class="expense-form">
+                            <input type="number" id="incomeAmount" placeholder="Amount earned">
+                            <select id="incomeSource">
+                                <option value="internship">Internship</option>
+                                <option value="freelancing">Freelancing</option>
+                                <option value="part-time">Part-time Job</option>
+                                <option value="allowance">Extra Allowance</option>
+                            </select>
+                            <button onclick="addIncome()">
+                                <i class="fas fa-plus"></i> Add Income
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expenses Tab -->
+                <div id="expenses-tab" class="tab-content">
+                    <div class="card">
+                        <h3><i class="fas fa-chart-pie"></i> Expense Categories</h3>
+                        <div class="expense-grid" id="expenseGrid">
+                            <div class="expense-card" onclick="showExpenseDetails('food')">
+                                <div class="expense-icon"><i class="fas fa-utensils"></i></div>
+                                <div class="expense-amount" id="food-amount">₹0</div>
+                                <div class="expense-label">Food</div>
+                            </div>
+                            <div class="expense-card" onclick="showExpenseDetails('shopping')">
+                                <div class="expense-icon"><i class="fas fa-shopping-bag"></i></div>
+                                <div class="expense-amount" id="shopping-amount">₹0</div>
+                                <div class="expense-label">Shopping</div>
+                            </div>
+                            <div class="expense-card" onclick="showExpenseDetails('friends')">
+                                <div class="expense-icon"><i class="fas fa-users"></i></div>
+                                <div class="expense-amount" id="friends-amount">₹0</div>
+                                <div class="expense-label">Friends</div>
+                            </div>
+                            <div class="expense-card" onclick="showExpenseDetails('weekend')">
+                                <div class="expense-icon"><i class="fas fa-glass-cheers"></i> 
+                                <div class="expense-amount" id="weekend-amount">₹0</div>
+                                <div class="expense-label">Weekend Outing</div>
+                            </div>
+                            <div class="expense-card" onclick="showExpenseDetails('social')">
+                                <div class="expense-icon"><i class="fas fa-hands-helping"></i></div>
+                                <div class="expense-amount" id="social-amount">₹0</div>
+                                <div class="expense-label">Social Service</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-plus"></i> Add Expense</h3>
+                        <div class="expense-form">
+                            <input type="number" id="expenseAmount" placeholder="Amount">
+                            <select id="expenseCategory">
+                                <option value="food">Food</option>
+                                <option value="shopping">Shopping</option>
+                                <option value="friends">Friends</option>
+                                <option value="weekend">Weekend Outing</option>
+                                <option value="social">Social Service</option>
+                            </select>
+                            <input type="text" id="expenseDescription" placeholder="Description (optional)">
+                            <button onclick="addExpense()">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reminders Tab -->
+                <div id="reminders-tab" class="tab-content">
+                    <div class="card">
+                        <h3><i class="fas fa-bell"></i> Weekly Spending Summary</h3>
+                        <div id="weeklyReminders">
+                            <p style="color: #FFA500; text-align: center; padding: 20px;">
+                                <i class="fas fa-info-circle"></i> Reminders will appear here based on your spending patterns
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-chart-bar"></i> Spending Analysis</h3>
+                        <div id="spendingAnalysis">
+                            <!-- Spending analysis will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes Tab -->
+                <div id="notes-tab" class="tab-content">
+                    <div class="card">
+                        <h3><i class="fas fa-sticky-note"></i> Personal Notes</h3>
+                        <textarea class="notes-area" id="personalNotes" placeholder="Write your financial goals, reminders, or any notes here..."></textarea>
+                        <div style="margin-top: 15px; text-align: right;">
+                            <button class="login-btn" onclick="saveNotes()" style="width: auto; padding: 10px 20px;">
+                                <i class="fas fa-save"></i> Save Notes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Support Tab -->
+                <div id="ai-support-tab" class="tab-content">
+                    <div class="card">
+                        <h3><i class="fas fa-robot"></i> AI Financial Assistant</h3>
+                        <div class="ai-chat">
+                            <div class="chat-messages" id="chatMessages">
+                                <div style="color: #FFD700; margin-bottom: 15px;">
+                                    <i class="fas fa-robot"></i> <strong>FINHIGH AI:</strong> Hello! I'm your personal financial assistant. Ask me anything about budgeting, saving, or managing your expenses!
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" id="chatInput" placeholder="Ask me about financial management..." onkeypress="if(event.key==='Enter') sendMessage()">
+                                <button onclick="sendMessage()">
+                                    <i class="fas fa-paper-plane"></i> Send
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expense History Modal -->
+    <div id="expenseHistoryModal" class="expense-history-modal">
+        <div class="expense-history-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Expense History</h3>
+                <button class="close-btn" onclick="closeExpenseModal()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+            <div id="modalContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            updateDisplay();
+        });
+
+        // Load user data from localStorage
+        function loadUserData() {
+            const savedUser = localStorage.getItem('finhigh_user');
+            const savedData = localStorage.getItem('finhigh_data');
+
+            if (savedUser && savedData) {
+                currentUser = JSON.parse(savedUser);
+                userData = JSON.parse(savedData);
+                
+                // Auto-login if user exists
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('dashboardSection').classList.remove('hidden');
+            }
+        }
+
+        // Update display
+        function updateDisplay() {
+            document.getElementById('currentBalance').textContent = `₹${userData.balance.toFixed(2)}`;
+            document.getElementById('savingsAmount').textContent = `₹${userData.savings.toFixed(2)}`;
+            document.getElementById('totalSpent').textContent = `₹${userData.totalSpent.toFixed(2)}`;
+            
+            // Update expense amounts
+            Object.keys(userData.expenses).forEach(category => {
+                const element = document.getElementById(`${category}-amount`);
+                if (element) {
+                    element.textContent = `₹${userData.expenses[category].toFixed(2)}`;
+                }
+            });
+
+            // Update notes
+            document.getElementById('personalNotes').value = userData.notes || '';
+
+            // Update reminders
+            updateReminders();
+            updateSpendingAnalysis();
+        }
+
+        // Show tab
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Add expense - FIXED VERSION
+        function addExpense() {
+            const amount = parseFloat(document.getElementById('expenseAmount').value);
+            const category = document.getElementById('expenseCategory').value;
+            const description = document.getElementById('expenseDescription').value.trim();
+
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+
+            if (amount > userData.balance) {
+                alert('Insufficient balance!');
+                return;
+            }
+
+            // Update data
+            userData.balance -= amount;
+            userData.totalSpent += amount;
+            userData.expenses[category] += amount;
+
+            // Add transaction with proper details
+            userData.transactions.push({
+                id: Date.now(),
+                type: 'expense',
+                category: category,
+                amount: amount,
+                description: description || 'No description provided',
+                date: new Date().toISOString(),
+                displayDate: new Date().toLocaleDateString('en-IN', {
+                    day: 'numeric',
+                    month: 'long', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            });
+
+            // Save data
+            localStorage.setItem('finhigh_data', JSON.stringify(userData));
+            
+            // Clear form
+            document.getElementById('expenseAmount').value = '';
+            document.getElementById('expenseDescription').value = '';
+            
+            // Update display
+            updateDisplay();
+            
+            alert(`₹${amount} expense added to ${category}!`);
+        }
+
+        // Add income
+        function addIncome() {
+            const amount = parseFloat(document.getElementById('incomeAmount').value);
+            const source = document.getElementById('incomeSource').value;
+
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+
+            // Split income: 50% to savings, 50% to balance
+            const toSavings = amount / 2;
+            const toBalance = amount / 2;
+
+            userData.savings += toSavings;
+            userData.balance += toBalance;
+
+            // Add transaction
+            userData.transactions.push({
+                id: Date.now(),
+                type: 'income',
+                source: source,
+                amount: amount,
+                date: new Date().toISOString(),
+                displayDate: new Date().toLocaleDateString('en-IN', {
+                    day: 'numeric',
+                    month: 'long', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            });
+
+            // Save data
+            localStorage.setItem('finhigh_data', JSON.stringify(userData));
+            
+            // Clear form
+            document.getElementById('incomeAmount').value = '';
+            
+            // Update display
+            updateDisplay();
+            
+            alert(`₹${amount} income added! ₹${toSavings} saved, ₹${toBalance} available for spending.`);
+        }
+
+        // FIXED: Show expense details in modal
+        function showExpenseDetails(category) {
+            const modal = document.getElementById('expenseHistoryModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            
+            // Get category info
+            const categoryData = categoryInfo[category];
+            const totalAmount = userData.expenses[category] || 0;
+            
+            // Filter transactions for this category
+            const categoryTransactions = userData.transactions.filter(t => 
+                t.category === category && t.type === 'expense'
+            );
+            
+            // Sort by date (newest first)
+            categoryTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Set modal title
+            modalTitle.innerHTML = `<i class="${categoryData.icon}"></i> ${categoryData.label} History`;
+            
+            // Build modal content
+            let content = `
+                <div class="category-summary">
+                    <div class="category-icon-large">
+                        <i class="${categoryData.icon}"></i>
+                    </div>
+                    <div class="category-total">₹${totalAmount.toFixed(2)}</div>
+                    <div class="category-name">${categoryData.label}</div>
+                    <div style="margin-top: 10px; color: #FFA500;">
+                        Total Transactions: ${categoryTransactions.length}
+                    </div>
+                </div>
+                
+                <h4 style="color: #FFD700; margin: 20px 0 15px 0; border-bottom: 1px solid #FFD700; padding-bottom: 10px;">
+                    <i class="fas fa-history"></i> Transaction History
+                </h4>
+            `;
+            
+            if (categoryTransactions.length > 0) {
+                categoryTransactions.forEach(transaction => {
+                    content += `
+                        <div class="transaction-item">
+                            <div class="transaction-amount">
+                                <i class="fas fa-minus-circle" style="color: #ff6b6b; margin-right: 8px;"></i>
+                                ₹${transaction.amount.toFixed(2)}
+                            </div>
+                            <div class="transaction-description">
+                                <i class="fas fa-comment-alt" style="margin-right: 8px; color: #FFA500;"></i>
+                                ${transaction.description}
+                            </div>
+                            <div class="transaction-date">
+                                <i class="fas fa-calendar" style="margin-right: 8px;"></i>
+                                ${transaction.displayDate}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                // Add summary stats
+                const avgAmount = totalAmount / categoryTransactions.length;
+                content += `
+                    <div style="margin-top: 30px; padding: 20px; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 1px solid #FFD700;">
+                        <h5 style="color: #FFD700; margin-bottom: 15px;">
+                            <i class="fas fa-chart-bar"></i> Quick Stats
+                        </h5>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; text-align: center;">
+                            <div>
+                                <div style="font-size: 1.2rem; color: #FFD700; font-weight: bold;">₹${avgAmount.toFixed(2)}</div>
+                                <div style="color: #FFA500; font-size: 0.9rem;">Avg per transaction</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 1.2rem; color: #FFD700; font-weight: bold;">${categoryTransactions.length}</div>
+                                <div style="color: #FFA500; font-size: 0.9rem;">Total transactions</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 1.2rem; color: #FFD700; font-weight: bold;">₹${totalAmount.toFixed(2)}</div>
+                                <div style="color: #FFA500; font-size: 0.9rem;">Total spent</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                content += `
+                    <div class="no-transactions">
+                        <i class="fas fa-inbox" style="font-size: 3rem; color: #FFA500; margin-bottom: 15px;"></i>
+                        <p>No transactions yet in this category.</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem;">Start adding expenses to see your transaction history!</p>
+                    </div>
+                `;
+            }
+            
+            modalContent.innerHTML = content;
+            modal.style.display = 'block';
+            
+            // Add click outside to close
+            modal.onclick = function(event) {
+                if (event.target === modal) {
+                    closeExpenseModal();
+                }
+            };
+        }
+
+        // Close expense modal
+        function closeExpenseModal() {
+            document.getElementById('expenseHistoryModal').style.display = 'none';
+        }
+
+        // Save notes
+        function saveNotes() {
+            const notes = document.getElementById('personalNotes').value;
+            userData.notes = notes;
+            localStorage.setItem('finhigh_data', JSON.stringify(userData));
+            alert('Notes saved successfully!');
+        }
+
+        // Update reminders
+        function updateReminders() {
+            const remindersDiv = document.getElementById('weeklyReminders');
+            let reminders = [];
+
+            const totalWeeklySpending = userData.totalSpent;
+            
+            if (totalWeeklySpending > 0) {
+                Object.keys(userData.expenses).forEach(category => {
+                    const amount = userData.expenses[category];
+                    if (amount > 0) {
+                        const percentage = ((amount / totalWeeklySpending) * 100).toFixed(1);
+                        reminders.push(`
+                            <div class="card" style="margin-bottom: 15px;">
+                                <p><strong>${category.charAt(0).toUpperCase() + category.slice(1)}:</strong> ₹${amount.toFixed(2)} (${percentage}% of total spending)</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${percentage}%"></div>
+                                </div>
+                            </div>
+                        `);
+                    }
+                });
+            }
+
+            if (reminders.length > 0) {
+                remindersDiv.innerHTML = `
+                    <h4 style="color: #FFD700; margin-bottom: 20px;"><i class="fas fa-chart-line"></i> This Week's Spending Breakdown:</h4>
+                    ${reminders.join('')}
+                `;
+            } else {
+                remindersDiv.innerHTML = `
+                    <p style="color: #FFA500; text-align: center; padding: 20px;">
+                        <i class="fas fa-info-circle"></i> No spending recorded yet. Start adding expenses to see your weekly summary!
+                    </p>
+                `;
+            }
+        }
+
+        // Update spending analysis
+        function updateSpendingAnalysis() {
+            const analysisDiv = document.getElementById('spendingAnalysis');
+            const totalBudget = currentUser ? currentUser.allowance : 0;
+            const spentPercentage = totalBudget > 0 ? ((userData.totalSpent / totalBudget) * 100).toFixed(1) : 0;
+
+            let analysis = '';
+            let alertClass = '';
+            let alertIcon = '';
+
+            if (spentPercentage < 50) {
+                analysis = "Great job! You're managing your budget well. Keep tracking your expenses.";
+                alertClass = 'success';
+                alertIcon = 'fas fa-check-circle';
+            } else if (spentPercentage < 75) {
+                analysis = "You're on track, but consider monitoring your spending more closely.";
+                alertClass = 'warning';
+                alertIcon = 'fas fa-exclamation-triangle';
+            } else {
+                analysis = "Warning: You've spent a significant portion of your budget. Consider reducing expenses.";
+                alertClass = 'error';
+                alertIcon = 'fas fa-exclamation-circle';
+            }
+
+            analysisDiv.innerHTML = `
+                <div class="message ${alertClass}">
+                    <i class="${alertIcon}"></i> ${analysis}
+                </div>
+                <div style="margin-top: 20px;">
+                    <p><strong>Budget Utilization:</strong></p>
+                    <div class="progress-bar" style="height: 30px;">
+                        <div class="progress-fill" style="width: ${spentPercentage}%"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px; color: #FFD700;">
+                        ${spentPercentage}% of monthly allowance used
+                    </p>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px;">
+                    <div style="text-align: center; padding: 15px; background: rgba(255, 215, 0, 0.1); border-radius: 10px;">
+                        <div style="font-size: 1.5rem; color: #FFD700;">₹${totalBudget}</div>
+                        <div style="color: #FFA500; font-size: 0.9rem;">Monthly Allowance</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: rgba(255, 215, 0, 0.1); border-radius: 10px;">
+                        <div style="font-size: 1.5rem; color: #FFD700;">₹${userData.totalSpent.toFixed(2)}</div>
+                        <div style="color: #FFA500; font-size: 0.9rem;">Total Spent</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: rgba(255, 215, 0, 0.1); border-radius: 10px;">
+                        <div style="font-size: 1.5rem; color: #FFD700;">₹${userData.savings.toFixed(2)}</div>
+                        <div style="color: #FFA500; font-size: 0.9rem;">Savings</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // AI Chat functionality
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            const messagesDiv = document.getElementById('chatMessages');
+            
+            // Add user message
+            messagesDiv.innerHTML += `
+                <div style="margin-bottom: 15px; text-align: right;">
+                    <div style="background: #FFD700; color: black; padding: 10px; border-radius: 15px; display: inline-block; max-width: 70%;">
+                        <strong>You:</strong> ${message}
+                    </div>
+                </div>
+            `;
+            
+            // Clear input
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const response = generateAIResponse(message);
+                messagesDiv.innerHTML += `
+                    <div style="margin-bottom: 15px;">
+                        <div style="background: rgba(255, 215, 0, 0.2); color: white; padding: 10px; border-radius: 15px; display: inline-block; max-width: 70%; border: 1px solid #FFD700;">
+                            <i class="fas fa-robot"></i> <strong>FINHIGH AI:</strong> ${response}
+                        </div>
+                    </div>
+                `;
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }, 1000);
+            
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        // Generate AI responses
+        function generateAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('budget') || lowerMessage.includes('money')) {
+                return `Based on your current spending of ₹${userData.totalSpent.toFixed(2)}, I recommend creating a weekly budget breakdown. You have ₹${userData.balance.toFixed(2)}                                                                                                          ing this month.`;
+            }
+            
+            if (lowerMessage.includes('save') || lowerMessage.includes('saving')) {
+                return `You currently have ₹${userData.savings.toFixed(2)} in savings. Try to save at least 20% of any extra income you earn. The 50/30/20 rule works well: 50% needs, 30% wants, 20% savings.`;
+            }
+            
+            if (lowerMessage.includes('expense') || lowerMessage.includes('spend')) {
+                const highestCategory = Object.keys(userData.expenses).reduce((a, b) => 
+                    userData.expenses[a] > userData.expenses[b] ? a : b
+                );
+                return `Your highest spending category is ${highestCategory} at ₹${userData.expenses[highestCategory].toFixed(2)}. Consider tracking daily expenses in this category to better manage costs.`;
+            }
+            
+            if (lowerMessage.includes('food')) {
+                return `Food expenses: ₹${userData.expenses.food.toFixed(2)}. Tip: Try meal planning and cooking at home to reduce food costs. Set a weekly food budget and stick to it!`;
+            }
+            
+            return `I understand you're asking about "${message}". As your financial assistant, I recommend reviewing your spending patterns regularly. Your current balance is ₹${userData.balance.toFixed(2)} and you've saved ₹${userData.savings.toFixed(2)} so far. What specific financial goal would you like to work on?`;
+        }
+
+        // Logout functionality
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('finhigh_user');
+                localStorage.removeItem('finhigh_data');
+                location.reload();
+            }
+        }
+
+        // Add logout button
+        document.addEventListener('DOMContentLoaded', function() {
+            const dashboardSection = document.getElementById('dashboardSection');
+            if (dashboardSection) {
+                const logoutBtn = document.createElement('div');
+                logoutBtn.style.position = 'fixed';
+                logoutBtn.style.top = '20px';
+                logoutBtn.style.right = '20px';
+                logoutBtn.style.zIndex = '1001';
+                logoutBtn.innerHTML = `
+                    <button onclick="logout()" style="background: #ff4444; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                `;
+                document.body.appendChild(logoutBtn);
+            }
+        });
+
+        // Auto-save functionality
+        setInterval(() => {
+            if (currentUser) {
+                localStorage.setItem('finhigh_data', JSON.stringify(userData));
+            }
+        }, 30000);
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeExpenseModal();
+            }
+        });
+    </script>
+</body>
+</html>
