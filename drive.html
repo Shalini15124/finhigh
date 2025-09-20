@@ -238,6 +238,7 @@
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
         }
+
         .expense-card {
             background: rgba(255, 215, 0, 0.1);
             border: 2px solid #FFD700;
@@ -246,10 +247,6 @@
             text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
-        }
-        option{
-            background-color: rgb(29, 28, 28);
-            color: #FFD700;
         }
 
         .expense-card:hover {
@@ -777,7 +774,7 @@
                                 <div class="expense-label">Friends</div>
                             </div>
                             <div class="expense-card" onclick="showExpenseDetails('weekend')">
-                                <div class="expense-icon"><i class="fas fa-glass-cheers"></i> 
+                                <div class="expense-icon"><i class="fas fa-calendar-weekend"></i></div>
                                 <div class="expense-amount" id="weekend-amount">₹0</div>
                                 <div class="expense-label">Weekend Outing</div>
                             </div>
@@ -1011,7 +1008,7 @@
 
             // Add transaction
             userData.transactions.push({
-                id: Date.now(),
+                id: Date.now(),	
                 type: 'income',
                 source: source,
                 amount: amount,
@@ -1287,7 +1284,7 @@
             const lowerMessage = message.toLowerCase();
             
             if (lowerMessage.includes('budget') || lowerMessage.includes('money')) {
-                return `Based on your current spending of ₹${userData.totalSpent.toFixed(2)}, I recommend creating a weekly budget breakdown. You have ₹${userData.balance.toFixed(2)}                                                                                                          ing this month.`;
+                return `Based on your current spending of ₹${userData.totalSpent.toFixed(2)}, I recommend creating a weekly budget breakdown. You have ₹${userData.balance.toFixed(2)} remaining this month.`;
             }
             
             if (lowerMessage.includes('save') || lowerMessage.includes('saving')) {
